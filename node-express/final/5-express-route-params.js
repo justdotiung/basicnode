@@ -27,28 +27,4 @@ app.get('/api/products/:id', (req, res) => {
   res.json(singleProduct);
 });
 
-app.get('/api/products/:productID/reviews/:reviewID', (req, res) => {
-  console.log(req.params);
-  res.send('hello world');
-});
-
-app.get('/api/v1/query', (req, res) => {
-  console.log(req.query);
-  const { search, limit } = req.query;
-  let searchProducts = [...products];
-  if (search) {
-    searchProducts = searchProducts.filter((product) =>
-      product.name.startsWith(search)
-    );
-  }
-  if (limit) {
-    searchProducts = searchProducts.slice(0, Number(limit));
-  }
-  if (searchProducts.length < 1) {
-    //조건문에서 리턴을 header를 셋하지 못한다.
-    return res.status(200).send('not found');
-  }
-  res.status(200).json(searchProducts);
-});
-
 app.listen(5000, () => console.log('server listen 5000 port'));
