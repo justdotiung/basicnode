@@ -1,14 +1,15 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-let { people } = require('./data');
+const people = require('./routes/people');
+const auth = require('./routes/auth');
 
 app.use(express.static('./node-express/methods-public'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(morgan('tiny'));
 
-app.get('/api/people', (req, res) => {
-  console.log(req.user);
-  res.status(200).json({ success: true, data: people });
-});
+app.use('/api/people', people);
+app.use('/login', auth);
 
 app.listen(5000, () => console.log('server listen 5000 port'));
